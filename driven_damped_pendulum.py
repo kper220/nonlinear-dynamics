@@ -113,6 +113,24 @@ def state_space_trajectory(xx):
     yy = d(xx)
     return _xx, yy
 
+def poincare_diagram(tt, solution, period=1, displacement=0):
+
+    indices = extract(tt, period=period, displacement=displacement)
+    n = len(indices)
+
+    xx, yy = state_space_trajectory(solution)
+
+    try:
+        _xx = [xx[i] for i in indices[:n-1]]
+    except IndexError:
+        pass
+    try:
+        _yy = [yy[i] for i in indices[:n-1]]
+    except IndexError:
+        pass
+
+    return _xx, _yy
+
 # code broke.
 def bifurcation(tt, initial_value, w0, w, b, gg, displacement=0):
     solution = solve(tt, initial_value, w0, w, b, gg)
